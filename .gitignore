@@ -4,6 +4,7 @@
 # or operating system, you probably want to add a global ignore instead:
 #   git config --global core.excludesfile ~/.gitignore_global
 
+exception.txt
 # Ignore bundler config
 /.bundle
 
@@ -13,3 +14,10 @@
 # Ignore all logfiles and tempfiles.
 /log/*.log
 /tmp
+*.DS_Store
+*.swp
+.env
+public/uploads
+vendor/bundler_gems
+config/database.yml
+config/config.yml
