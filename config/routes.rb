@@ -5,4 +5,5 @@ Myflix::Application.routes.draw do
   get "home", to: "videos#home"
   
   resources :videos, only: :show  
+  resources :categories, only: [:show, :index]
 end

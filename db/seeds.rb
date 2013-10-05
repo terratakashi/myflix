@@ -40,3 +40,15 @@ Video.create(title: "South Park",
              small_cover: "small_cover/south_park.jpg",
              #large_cover: "",
              description: "South Park is an American adult animated sitcom created by Trey Parker and Matt Stone for the Comedy Central television network. Intended for mature audiences, the show has become famous for its crude language and dark, surreal humor that satirizes a wide range of topics. The ongoing narrative revolves around four boys—Stan Marsh, Kyle Broflovski, Eric Cartman and Kenny McCormick—and their bizarre adventures in and around the titular Colorado town.")
+
+
+
+Category.create(name: "TV Commedies")
+Category.create(name: "TV Dramas")
+Category.create(name: "Reality TV")
+
+Video.all.each do |video|
+  Category.all.each do |category|
+    video.categories << category
+  end
+end
