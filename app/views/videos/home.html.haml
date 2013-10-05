@@ -1,0 +1,26 @@
+%article.video_category
+  %header
+    %h3= link_to "TV Commedies"
+  .videos.row
+    - @videos.shuffle!.each do |video|
+      .video.span2
+        = link_to video_path(video) do
+          = image_tag video.small_cover
+
+%article.video_category
+  %header
+    %h3= link_to "TV Dramas"
+  .videos.row
+    - @videos.shuffle!.each do |video|
+      .video.span2
+        = link_to video_path(video) do
+          = image_tag video.small_cover
+
+%article.video_category
+  %header
+    %h3= link_to "Reality TV"
+  .videos.row
+    - @videos.shuffle!.each do |video|
+      .video.span2
+        = link_to video_path(video) do
+          = image_tag video.small_cover
