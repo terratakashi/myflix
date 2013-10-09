@@ -16,6 +16,10 @@ group :assets do
 
 end
 
+group :development, :test do
+  gem 'rspec-rails'
+end
+
 group :development do
   # advanced erros log
   gem 'better_errors'
