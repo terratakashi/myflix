@@ -17,6 +17,13 @@ group :assets do
 end
 
 group :development do
+  # advanced erros log
+  gem 'better_errors'
+  # detect N+1 queries issue
+  gem 'bullet'
+  # RailsPanel - Chrome extension for Rails development
+  gem 'meta_request'
+
   gem 'sqlite3'
   gem 'pry'
   gem 'pry-nav'

@@ -1,7 +1,7 @@
 class VideosController < ApplicationController
 
   def home
-    @categories = Category.includes(:videos).limit(6).references(:videos).all
+    @categories = Category.includes(:videos).all
   end
 
   def show
