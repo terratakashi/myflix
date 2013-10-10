@@ -13,7 +13,10 @@ group :assets do
   gem 'coffee-rails', '~> 4.0.0'
   #gem 'uglifier', '>= 1.0.3'
   gem 'uglifier', '>= 1.3.0'
+end
 
+group :test do
+  gem 'shoulda-matchers'
 end
 
 group :development, :test do
