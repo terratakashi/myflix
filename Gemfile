@@ -5,6 +5,7 @@ gem 'rails', '4.0.0'
 gem 'haml-rails'
 gem 'bootstrap-sass'
 gem 'jquery-rails'
+gem 'bcrypt-ruby', '= 3.0.1'
 
 group :assets do
   #gem 'sass-rails',   '~> 3.2.3'
