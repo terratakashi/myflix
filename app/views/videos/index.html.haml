@@ -3,9 +3,7 @@
     %header
       %h3= link_to category.name, category_path(category)
     .videos.row
-      - window = 0
-      - category.videos.shuffle!.each do |video|
-        - window += 1
+      - category.recent_videos.each do |video|
         .video.span2
           = link_to video_path(video) do
-            = image_tag video.small_cover if window <= 6
+            = image_tag video.small_cover
