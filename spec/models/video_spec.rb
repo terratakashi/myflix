@@ -1,8 +1,8 @@
 require "spec_helper"
 
-describe Video do 
+describe Video do
 
-  it { should have_many(:categories_videos) } 
+  it { should have_many(:categories_videos) }
 
   it { should have_many(:categories).through(:categories_videos) } #
 
@@ -10,7 +10,7 @@ describe Video do
 
   it { should validate_presence_of(:description)}
 
-  it { should ensure_length_of(:description).is_at_most(1000) }  
+  it { should ensure_length_of(:description).is_at_most(1000) }
 
   describe "#search_by_title" do
     it "search nil will return nil" do
@@ -51,5 +51,5 @@ describe Video do
       expect(Video.search_by_title("Titanic Batman Cat")).to eq videos
     end
   end
-  
+
 end
