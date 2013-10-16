@@ -4,7 +4,6 @@ class UsersController < ApplicationController
   end
 
   def create
-    binding.pry
     @user = User.new(secure_params)
     @user.password_confirmation = @user.password
 
