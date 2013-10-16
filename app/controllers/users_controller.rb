@@ -1,4 +1,8 @@
 class UsersController < ApplicationController
+  def index
+    redirect_to home_path if logged_in?
+  end
+
   def new
     @user = User.new
   end
@@ -9,7 +13,7 @@ class UsersController < ApplicationController
 
     if @user.save
       flash[:notice] = "The acoount of #{@user.full_name} has been created."
-      redirect_to home_path
+      redirect_to sign_in_path
     else
       render "new"
     end
