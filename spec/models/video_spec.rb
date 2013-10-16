@@ -13,38 +13,38 @@ describe Video do
   it { should ensure_length_of(:description).is_at_most(1000) }
 
   describe "#search_by_title" do
-    it "search nil will return nil" do
+    it "return nil if search nil" do
       Video.create(:title => "Titanic", :description => "Awesome")
       expect(Video.search_by_title(nil)).to eq nil
     end
 
-    it "search blank string will return nil" do
+    it "return nil if search blank string" do
       Video.create(:title => "Titanic", :description => "Awesome")
       expect(Video.search_by_title("")).to eq nil
     end
 
-    it "search nonexisting one will return nothing" do
+    it "return empty if no result match" do
       Video.create(:title => "Titanic", :description => "Awesome")
       expect(Video.search_by_title("Adventure")).to eq []
     end
 
-    it "search a unique existing one will return one" do
+    it "return one if match one" do
       video = Video.create(:title => "Titanic", :description => "Awesome")
       expect(Video.search_by_title("Titanic")).to eq [video]
     end
 
-    it "search a existing series will return bunch of records" do
+    it "return bunch of records if search a series" do
       videos = Video.create( [{:title => "Titanic", :description => "Awesome"},
                               {:title => "Titanic II", :description => "Good"}] )
       expect(Video.search_by_title("Titanic")).to eq videos
     end
 
-    it "search by multiple words including a existing one will return one" do
+    it "return one if one of multiple words match" do
       video = Video.create(:title => "Titanic", :description => "Awesome")
       expect(Video.search_by_title("Batman Cat Titanic")).to eq [video]
     end
 
-    it "search by multiple words including many existing records will return many" do
+    it "return many records if multiple words match multiple records" do
       videos = Video.create( [{:title => "Titanic", :description => "Awesome"},
                               {:title => "Titanic II", :description => "Good"},
                               {:title => "Batman", :description => "My favorite"}] )
