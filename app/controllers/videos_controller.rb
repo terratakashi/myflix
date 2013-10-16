@@ -1,4 +1,5 @@
 class VideosController < ApplicationController
+  before_action :require_user, only: [:index, :show]
 
   def index
     @categories = Category.includes(:videos).all
