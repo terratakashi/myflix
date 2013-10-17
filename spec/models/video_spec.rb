@@ -1,8 +1,8 @@
 require "spec_helper"
 
-describe Video do 
+describe Video do
 
-  it { should have_many(:categories_videos) } 
+  it { should have_many(:categories_videos) }
 
   it { should have_many(:categories).through(:categories_videos) } #
 
@@ -10,6 +10,46 @@ describe Video do
 
   it { should validate_presence_of(:description)}
 
-  it { should ensure_length_of(:description).is_at_most(1000) }  
-  
+  it { should ensure_length_of(:description).is_at_most(1000) }
+
+  describe "#search_by_title" do
+    it "return nil if search nil" do
+      Video.create(:title => "Titanic", :description => "Awesome")
+      expect(Video.search_by_title(nil)).to eq nil
+    end
+
+    it "return nil if search blank string" do
+      Video.create(:title => "Titanic", :description => "Awesome")
+      expect(Video.search_by_title("")).to eq nil
+    end
+
+    it "return empty if no result match" do
+      Video.create(:title => "Titanic", :description => "Awesome")
+      expect(Video.search_by_title("Adventure")).to eq []
+    end
+
+    it "return one if match one" do
+      titanic = Video.create(:title => "Titanic", :description => "Awesome")
+      expect(Video.search_by_title("Titanic")).to eq [titanic]
+    end
+
+    it "return records by reverse order of created_at" do
+      titanic = Video.create(:title => "Titanic", :description => "Awesome", :created_at => 1.day.ago)
+      titanic2 = Video.create(:title => "Titanic II", :description => "Good")
+      expect(Video.search_by_title("Titanic")).to eq [titanic2, titanic]
+    end
+
+    it "return one if one of multiple words match" do
+      titanic = Video.create(:title => "Titanic", :description => "Awesome")
+      expect(Video.search_by_title("Batman Cat Titanic")).to eq [titanic]
+    end
+
+    it "return many records if multiple words match multiple records" do
+      titanic = Video.create(:title => "Titanic", :description => "Awesome", :created_at => 2.day.ago)
+      titanic2 = Video.create(:title => "Titanic II", :description => "Good", :created_at => 1.day.ago)
+      batman = Video.create(:title => "Batman", :description => "My favorite")
+      expect(Video.search_by_title("Titanic Batman Cat")).to eq [batman, titanic2, titanic]
+    end
+  end
+
 end
