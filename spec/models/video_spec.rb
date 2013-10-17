@@ -29,26 +29,26 @@ describe Video do
     end
 
     it "return one if match one" do
-      video = Video.create(:title => "Titanic", :description => "Awesome")
-      expect(Video.search_by_title("Titanic")).to eq [video]
+      titanic = Video.create(:title => "Titanic", :description => "Awesome")
+      expect(Video.search_by_title("Titanic")).to eq [titanic]
     end
 
-    it "return bunch of records if search a series" do
-      videos = Video.create( [{:title => "Titanic", :description => "Awesome"},
-                              {:title => "Titanic II", :description => "Good"}] )
-      expect(Video.search_by_title("Titanic")).to eq videos
+    it "return records by reverse order of created_at" do
+      titanic = Video.create(:title => "Titanic", :description => "Awesome", :created_at => 1.day.ago)
+      titanic2 = Video.create(:title => "Titanic II", :description => "Good")
+      expect(Video.search_by_title("Titanic")).to eq [titanic2, titanic]
     end
 
     it "return one if one of multiple words match" do
-      video = Video.create(:title => "Titanic", :description => "Awesome")
-      expect(Video.search_by_title("Batman Cat Titanic")).to eq [video]
+      titanic = Video.create(:title => "Titanic", :description => "Awesome")
+      expect(Video.search_by_title("Batman Cat Titanic")).to eq [titanic]
     end
 
     it "return many records if multiple words match multiple records" do
-      videos = Video.create( [{:title => "Titanic", :description => "Awesome"},
-                              {:title => "Titanic II", :description => "Good"},
-                              {:title => "Batman", :description => "My favorite"}] )
-      expect(Video.search_by_title("Titanic Batman Cat")).to eq videos
+      titanic = Video.create(:title => "Titanic", :description => "Awesome", :created_at => 2.day.ago)
+      titanic2 = Video.create(:title => "Titanic II", :description => "Good", :created_at => 1.day.ago)
+      batman = Video.create(:title => "Batman", :description => "My favorite")
+      expect(Video.search_by_title("Titanic Batman Cat")).to eq [batman, titanic2, titanic]
     end
   end
 

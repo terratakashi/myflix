@@ -1,7 +1,4 @@
 class UsersController < ApplicationController
-  def index
-    redirect_to home_path if logged_in?
-  end
 
   def new
     @user = User.new
@@ -9,7 +6,6 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(secure_params)
-    @user.password_confirmation = @user.password
 
     if @user.save
       flash[:notice] = "The acoount of #{@user.full_name} has been created."

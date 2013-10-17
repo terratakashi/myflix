@@ -9,7 +9,7 @@ class Video < ActiveRecord::Base
     if !keywords.blank?
       keywords = keywords.split
       query = keywords.map { |keyword| "title like '%#{keyword}%'"}.join(" OR ")
-      where(query)
+      where(query).order(created_at: :desc)
     end
   end
 
