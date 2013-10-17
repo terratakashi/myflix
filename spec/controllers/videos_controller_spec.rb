@@ -19,7 +19,7 @@ describe VideosController do
     end
   end
 
-  describe "POST search" do
+  describe "POST #search" do
     it "sets @videos for authenticated users" do
       bruce = User.create(full_name: "Bruce Chen", email: "bruce@kongfu.com", password: 'password')
       session[:user_id] = bruce.id
