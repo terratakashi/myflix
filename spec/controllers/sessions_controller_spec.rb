@@ -3,8 +3,7 @@ require "spec_helper"
 describe SessionsController do
   describe "GET #new" do
     it "redirects to home page for authenticated users" do
-      alex = User.create(email: "example@example.com", full_name: "Alex Chen", password: "password")
-      session[:user_id] = alex.id
+      session[:user_id] = Fabricate(:user).id
 
       get :new
       expect(response).to redirect_to home_path
@@ -18,13 +17,13 @@ describe SessionsController do
   describe "POST #create" do
     context "with valid credentails" do
       before do
-        alex = User.create(email: "example@example.com", full_name: "Alex Chen", password: "password")
-        post :create, email: alex.email, password: alex.password
+        user = Fabricate(:user)
+        post :create, email: user.email, password: user.password
       end
 
       it "puts the user id into the session" do
-        alex = User.first
-        expect(session[:user_id]).to eq(alex.id)
+        user = User.first
+        expect(session[:user_id]).to eq(user.id)
       end
 
       it "redirects to home page" do
@@ -37,8 +36,8 @@ describe SessionsController do
 
     context "with invalid credentails" do
       before do
-        alex = User.create(email: "example@example.com", full_name: "Alex Chen", password: "password")
-        post :create, email: alex.email, password: "wrong_password"
+        user = Fabricate(:user)
+        post :create, email: user.email, password: "wrong_password"
       end
 
       it "doesn't put the user id into the session" do
@@ -56,8 +55,7 @@ describe SessionsController do
 
   describe "GET #destroy" do
     before do
-      alex = User.create(email: "example@example.com", full_name: "Alex Chen", password: "password")
-      session[:user_id] = alex.id
+      session[:user_id] = Fabricate(:user).id
       get :destroy
     end
 
