@@ -23,7 +23,11 @@ end
 
 group :development, :test do
   gem 'rspec-rails'
-  gem 'factory_girl_rails'
+  #gem 'factory_girl_rails'
+  gem 'faker'
+  gem 'fabrication'
+  gem 'pry'
+  gem 'pry-nav'
 end
 
 group :development do
@@ -35,8 +39,6 @@ group :development do
   gem 'meta_request'
 
   gem 'sqlite3'
-  gem 'pry'
-  gem 'pry-nav'
 end
 
 group :production do

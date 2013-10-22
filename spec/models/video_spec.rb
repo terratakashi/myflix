@@ -2,6 +2,8 @@ require "spec_helper"
 
 describe Video do
 
+  it { should have_many(:reviews) }
+
   it { should have_many(:categories_videos) }
 
   it { should have_many(:categories).through(:categories_videos) } #

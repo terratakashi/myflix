@@ -29,6 +29,9 @@ Myflix::Application.configure do
   # Print deprecation notices to the stderr
   config.active_support.deprecation = :stderr
 
+  # Add to new config to rails 4
+  config.eager_load = false
+  config.active_record.migration_error = :page_load
   # no longer support in rails 4
   # Log error messages when you accidentally call methods on nil
   #config.whiny_nils = true
