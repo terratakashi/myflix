@@ -18,7 +18,7 @@
       = form_for [@video, Review.new] do |f|
         %fieldset
           = f.label :rating, "Rate this video"
-          = f.select :rating, (1..5).to_a.reverse.map { |i| [pluralize(i, "Star"), i] }
+          = f.select :rating, 5.downto(1).map { |i| [pluralize(i, "Star"), i] }
           = f.label :content, "Write Review"
           = f.text_area :content, :rows => 6, :class => "span6"
         %fieldset.actions.clearfix
