@@ -56,9 +56,3 @@ Video.all.each do |video|
     Fabricate(:review, video: video, user: user)
   end
 end
-
-
-
-
-
-
