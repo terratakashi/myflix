@@ -4,4 +4,28 @@ class QueueItemsController < ApplicationController
   def index
     @queue_items = current_user.queue_items
   end
+
+  def create
+    @video = Video.find(params[:video_id])
+    @queue_item = QueueItem.new(video: @video, user: current_user, position: new_queue_item_position)
+
+    if new_queue_item?(@video)
+      @queue_item.save
+      flash[:notice] = "#{@video.title} has been added to my queue."
+      redirect_to my_queue_path
+    else
+      flash[:warning] = "#{@video.title} is already in my queue."
+      redirect_to @video
+    end
+  end
+
+  private
+
+  def new_queue_item_position
+    current_user.queue_items.count + 1
+  end
+
+  def new_queue_item?(video)
+    !current_user.queue_items.map(&:video).include?(video)
+  end
 end

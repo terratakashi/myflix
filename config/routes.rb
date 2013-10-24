@@ -8,6 +8,7 @@ Myflix::Application.routes.draw do
       post "search"
     end
   end
+  resources :queue_items, only: [:create]
   resources :categories, only: [:show]
   resources :users, only: [:create]
 
