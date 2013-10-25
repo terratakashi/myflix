@@ -29,6 +29,6 @@
                   - queue_item.categories.each do |category|
                     = link_to category.name, category
                 %td
-                  = link_to "", method: :post do
+                  = link_to queue_item, method: :delete do
                     %i.icon-remove
         = button_to "Update Instant Queue", nil, class: "btn"
