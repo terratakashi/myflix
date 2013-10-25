@@ -6,13 +6,13 @@ class QueueItemsController < ApplicationController
   end
 
   def create
-    @video = Video.find(params[:video_id])
+    video = Video.find(params[:video_id])
 
-    if new_queue_item?(@video)
-      QueueItem.create(video: @video, user: current_user, position: new_queue_item_position)
-      flash[:notice] = "#{@video.title} has been added to my queue."
+    if new_queue_item?(video)
+      QueueItem.create(video: video, user: current_user, position: new_queue_item_position)
+      flash[:notice] = "#{video.title} has been added to my queue."
     else
-      flash[:warning] = "#{@video.title} is already in my queue."
+      flash[:warning] = "#{video.title} is already in my queue."
     end
 
     redirect_to my_queue_path

@@ -30,11 +30,6 @@ describe QueueItemsController do
         expect(response).to redirect_to my_queue_path
       end
 
-      it "sets video variable" do
-        post :create, video_id: video
-        expect(assigns(:video)).to eq video
-      end
-
       it "create a queue item" do
         post :create, video_id: video
         expect(QueueItem.count).to eq(1)
