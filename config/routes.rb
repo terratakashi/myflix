@@ -12,6 +12,7 @@ Myflix::Application.routes.draw do
   resources :categories, only: [:show]
   resources :users, only: [:create]
 
+  post "update_queue", to: "queue_items#update_queue"
   get "register", to: "users#new"
   get "sign_in", to: "sessions#new"
   post "sign_in", to: "sessions#create"
