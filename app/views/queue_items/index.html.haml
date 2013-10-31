@@ -25,8 +25,7 @@
                   %td
                     = button_to "Play", nil, class: "btn"
                   %td
-                    = select_tag :rating, options_for_select(5.downto(1).map { |i| [pluralize(i, "Star"), i] }, queue_item.rating)
-
+                    = select_tag "queue_items[][rating]", options_for_video_review(queue_item.rating), include_blank: true
                   %td
                     - queue_item.categories.each do |category|
                       = link_to category.name, category

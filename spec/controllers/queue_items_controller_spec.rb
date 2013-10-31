@@ -137,51 +137,40 @@ describe QueueItemsController do
       end
 
       context "with valid input" do
-        it "redirect to my queue page" do
-          queue_item = Fabricate(:queue_item, user: user, position: 1)
+        let(:queue_item1) { Fabricate(:queue_item, user: user, position: 1) }
+        let(:queue_item2) { Fabricate(:queue_item, user: user, position: 2) }
 
-          post :update_queue, queue_items: [{id: queue_item.id, position: 1}]
+        it "redirect to my queue page" do
+          post :update_queue, queue_items: [{id: queue_item1.id, position: 2}, {id: queue_item2.id, position: 1}]
           expect(response).to redirect_to my_queue_path
         end
 
         it "reorder the queue items" do
-          queue_item1 = Fabricate(:queue_item, user: user, position: 1)
-          queue_item2 = Fabricate(:queue_item, user: user, position: 2)
-
           post :update_queue, queue_items: [{id: queue_item1.id, position: 2}, {id: queue_item2.id, position: 1}]
           expect(user.queue_items).to eq([queue_item2, queue_item1])
         end
 
         it "normalize the position numbers" do
-          queue_item1 = Fabricate(:queue_item, user: user, position: 1)
-          queue_item2 = Fabricate(:queue_item, user: user, position: 2)
-
           post :update_queue, queue_items: [{id: queue_item1.id, position: 3}, {id: queue_item2.id, position: 2}]
           expect(user.queue_items.map(&:position)).to eq([1, 2])
         end
       end
 
       context "with invalid input" do
-        it "redirect to my queue page" do
-          queue_item1 = Fabricate(:queue_item, user: user, position: 1)
-          queue_item2 = Fabricate(:queue_item, user: user, position: 2)
+        let(:queue_item1) { Fabricate(:queue_item, user: user, position: 1) }
+        let(:queue_item2) { Fabricate(:queue_item, user: user, position: 2) }
 
+        it "redirect to my queue page" do
           post :update_queue, queue_items: [{id: queue_item1.id, position: 1}, {id: queue_item2.id, position: 1.5}]
           expect(response).to redirect_to my_queue_path
         end
 
         it "sets an error message" do
-          queue_item1 = Fabricate(:queue_item, user: user, position: 1)
-          queue_item2 = Fabricate(:queue_item, user: user, position: 2)
-
           post :update_queue, queue_items: [{id: queue_item1.id, position: 1}, {id: queue_item2.id, position: 1.5}]
           expect(flash[:error]).not_to be_blank
         end
 
         it "does not change the queue items" do
-          queue_item1 = Fabricate(:queue_item, user: user, position: 1)
-          queue_item2 = Fabricate(:queue_item, user: user, position: 2)
-
           post :update_queue, queue_items: [{id: queue_item1.id, position: 3}, {id: queue_item2.id, position: 1.5}]
           expect(queue_item1.reload.position).to eq(1)
         end
