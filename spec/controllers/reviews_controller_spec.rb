@@ -60,9 +60,8 @@ describe ReviewsController do
     end
 
     context "with unauthenticated users" do
-      it "redirect to root page" do
-        post :create, review: Fabricate.attributes_for(:review), video_id: video
-        expect(response).to redirect_to sign_in_path
+      it_behaves_like "requires sign in" do
+        let(:action) { post :create, review: Fabricate.attributes_for(:review), video_id: video }
       end
     end
   end

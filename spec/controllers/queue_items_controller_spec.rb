@@ -2,7 +2,11 @@ require "spec_helper"
 
 describe QueueItemsController do
   describe "GET #index" do
-    it "sets @queue_items with authenticated users" do
+    it_behaves_like "requires sign in" do
+      let(:action) { get :index }
+    end
+
+    it "sets @queue_items for current user" do
       user_sign_in
       queue_item1 = Fabricate(:queue_item, user: current_user)
       queue_item2 = Fabricate(:queue_item, user: current_user)
@@ -10,18 +14,16 @@ describe QueueItemsController do
       get :index
       expect(assigns(:queue_items)).to match_array([queue_item1, queue_item2])
     end
-
-    it "redirect to sign in page with unauthenticated users" do
-      get :index
-      expect(response).to redirect_to sign_in_path
-    end
   end
 
   describe "POST #create" do
-    context "with authenticated users" do
+    it_behaves_like "requires sign in" do
+        let(:action) { post :create, video_id: 1 }
+    end
+
+    context "with the authenticated users" do
       let(:video) { Fabricate(:video) }
       before { user_sign_in }
-
       it "redirect to my queue page" do
         post :create, video_id: video
         expect(response).to redirect_to my_queue_path
@@ -69,14 +71,6 @@ describe QueueItemsController do
         expect(flash[:warning]).not_to be_blank
       end
     end
-
-    context "with unauthenticated users" do
-      it "redirect to sign in page" do
-        video = Fabricate(:video)
-        post :create, video_id: video
-        expect(response).to redirect_to sign_in_path
-      end
-    end
   end
 
   describe "DELETE #destroy" do
@@ -114,12 +108,8 @@ describe QueueItemsController do
     end
 
     context "with unauthenticated users" do
-      it "redirect to sign in page" do
-        user = Fabricate(:user)
-        queue_item = Fabricate(:queue_item, user: user)
-
-        delete :destroy, id: queue_item
-        expect(response).to redirect_to sign_in_path
+      it_behaves_like "requires sign in" do
+        let(:action) { delete :destroy, id: 3 }
       end
     end
   end
@@ -181,9 +171,8 @@ describe QueueItemsController do
     end
 
     context "with unauthenticated users" do
-      it "redirect to sign in page" do
-        post :update_queue, queue_items: [{id: 2, position: 3}, {id: 1, position: 5}]
-        expect(response).to redirect_to sign_in_path
+      it_behaves_like "requires sign in" do
+        let(:action) { post :update_queue, queue_items: [{id: 2, position: 3}, {id: 1, position: 5}] }
       end
     end
   end
