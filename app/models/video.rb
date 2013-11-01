@@ -14,4 +14,12 @@ class Video < ActiveRecord::Base
     end
   end
 
+  def average_rating
+    if reviews.empty?
+      "unranked"
+    else
+      average = reviews.average("rating").round(1)
+      "#{average}/5.0"
+    end
+  end
 end

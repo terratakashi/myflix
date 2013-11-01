@@ -41,8 +41,6 @@ describe Category do
       expect(comedy.recent_videos.count).to eq(6)
     end
 
-
-
     it "returns the most recent 6 videos" do
       comedy = Category.create(:name => "comedy")
       10.times { |i| batman = comedy.videos.create(:title => "Batman#{i}", :description => "Awesome") }
@@ -50,11 +48,5 @@ describe Category do
 
       expect(comedy.recent_videos).not_to include(old_fashion)
     end
-
-
-
-
   end
-
-
 end
