@@ -5,11 +5,10 @@ describe ReviewsController do
     let(:video) { Fabricate(:video) }
 
     context "with authenticated users" do
-      let(:user) { Fabricate(:user) }
-      before { session[:user_id] = user.id }
+      before { user_sign_in }
 
       context "with valid input" do
-        before { post :create, review: Fabricate.attributes_for(:review), video_id: video, user: user }
+        before { post :create, review: Fabricate.attributes_for(:review), video_id: video, user: current_user }
 
         it "sets the @video" do
           expect(assigns(:video)).to eq(video)
@@ -23,8 +22,8 @@ describe ReviewsController do
           expect(Review.count).to eq(1)
         end
 
-        it "create the @review associated with sign in user" do
-          expect(Review.first.user).to eq(user)
+        it "create the @review associated with current user" do
+          expect(Review.first.user).to eq(current_user)
         end
 
         it "create the @review associated with video" do
@@ -38,23 +37,23 @@ describe ReviewsController do
 
       context "with invalid intput" do
         it "doesn't create review" do
-          post :create, review: {rating: 3}, video_id: video, user: user
+          post :create, review: {rating: 3}, video_id: video, user: current_user
           expect(Review.count).to eq(0)
         end
 
         it "render videos/show template" do
-          post :create, review: {rating: 3}, video_id: video, user: user
+          post :create, review: {rating: 3}, video_id: video, user: current_user
           expect(response).to render_template "videos/show"
         end
 
         it "sets @video" do
-          post :create, review: {rating: 3}, video_id: video, user: user
+          post :create, review: {rating: 3}, video_id: video, user: current_user
           expect(assigns(:video)).to eq(video)
         end
 
         it "sets @reviews" do
           review = Fabricate(:review, video: video)
-          post :create, review: {rating: 3}, video_id: video, user: user
+          post :create, review: {rating: 3}, video_id: video, user: current_user
           expect(assigns(:reviews)).to match_array([review])
         end
       end

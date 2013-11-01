@@ -3,7 +3,7 @@ describe VideosController do
 
   describe "GET #show" do
     it "sets @video for authenticated users" do
-      session[:user_id] = Fabricate(:user).id
+      user_sign_in
       video = Fabricate(:video)
       # test show action
       get :show, id: video
@@ -11,11 +11,10 @@ describe VideosController do
     end
 
     it "sets @reviews for authenticated users" do
-      user = Fabricate(:user)
-      session[:user_id] = user.id
+      user_sign_in
       video = Fabricate(:video)
-      review1 = Fabricate(:review, video: video, user: user)
-      review2 = Fabricate(:review, video: video, user: user)
+      review1 = Fabricate(:review, video: video, user: current_user)
+      review2 = Fabricate(:review, video: video, user: current_user)
       # test show action
       get :show, id: video
       expect(assigns(:reviews)).to match_array([review1, review2])
@@ -31,7 +30,7 @@ describe VideosController do
 
   describe "POST #search" do
     it "sets @videos for authenticated users" do
-      session[:user_id] = Fabricate(:user).id
+      user_sign_in
       batman = Video.create(:title => "batman", :description => "a real hero")
       #test search action
       post :search, query: "atma"
