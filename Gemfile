@@ -22,6 +22,7 @@ group :test do
   # nyan cat style for rspec
   gem "nyan-cat-formatter"
   gem "capybara"
+  gem "launchy"
 end
 
 group :development, :test do
