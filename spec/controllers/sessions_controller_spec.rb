@@ -3,7 +3,7 @@ require "spec_helper"
 describe SessionsController do
   describe "GET #new" do
     it "redirects to home page for authenticated users" do
-      user_sign_in
+      set_current_user
 
       get :new
       expect(response).to redirect_to home_path
@@ -56,7 +56,7 @@ describe SessionsController do
 
   describe "GET #destroy" do
     before do
-      user_sign_in
+      set_current_user
       get :destroy
     end
 

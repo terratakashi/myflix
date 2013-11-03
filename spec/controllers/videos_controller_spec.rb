@@ -3,7 +3,7 @@ describe VideosController do
 
   describe "GET #show" do
     it "sets @video for authenticated users" do
-      user_sign_in
+      set_current_user
       video = Fabricate(:video)
       # test show action
       get :show, id: video
@@ -11,7 +11,7 @@ describe VideosController do
     end
 
     it "sets @reviews for authenticated users" do
-      user_sign_in
+      set_current_user
       video = Fabricate(:video)
       review1 = Fabricate(:review, video: video, user: current_user)
       review2 = Fabricate(:review, video: video, user: current_user)
@@ -27,7 +27,7 @@ describe VideosController do
 
   describe "POST #search" do
     it "sets @videos for authenticated users" do
-      user_sign_in
+      set_current_user
       batman = Video.create(:title => "batman", :description => "a real hero")
       #test search action
       post :search, query: "atma"

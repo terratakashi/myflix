@@ -7,7 +7,7 @@ describe QueueItemsController do
     end
 
     it "sets @queue_items for current user" do
-      user_sign_in
+      set_current_user
       queue_item1 = Fabricate(:queue_item, user: current_user)
       queue_item2 = Fabricate(:queue_item, user: current_user)
 
@@ -23,7 +23,7 @@ describe QueueItemsController do
 
     context "with the authenticated users" do
       let(:video) { Fabricate(:video) }
-      before { user_sign_in }
+      before { set_current_user }
       it "redirect to my queue page" do
         post :create, video_id: video
         expect(response).to redirect_to my_queue_path
@@ -75,7 +75,7 @@ describe QueueItemsController do
 
   describe "DELETE #destroy" do
     context "with the authenticated users" do
-      before { user_sign_in }
+      before { set_current_user }
       it "redirect to my queue page" do
         queue_item = Fabricate(:queue_item)
 
@@ -116,7 +116,7 @@ describe QueueItemsController do
 
   describe "POST #update_queue" do
     context "with authenticated users" do
-      before { user_sign_in }
+      before { set_current_user }
 
       context "with valid input" do
         let(:queue_item1) { Fabricate(:queue_item, user: current_user, position: 1) }

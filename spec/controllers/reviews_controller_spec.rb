@@ -5,7 +5,7 @@ describe ReviewsController do
     let(:video) { Fabricate(:video) }
 
     context "with authenticated users" do
-      before { user_sign_in }
+      before { set_current_user }
 
       context "with valid input" do
         before { post :create, review: Fabricate.attributes_for(:review), video_id: video, user: current_user }
