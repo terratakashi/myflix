@@ -4,4 +4,6 @@ class Review < ActiveRecord::Base
 
   validates :rating, :presence => true
   validates :content, :presence => true
+
+  delegate :title, to: :video, prefix: :video
 end
