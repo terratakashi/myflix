@@ -3,11 +3,12 @@ require "spec_helper"
 describe SessionsController do
   describe "GET #new" do
     it "redirects to home page for authenticated users" do
-      session[:user_id] = Fabricate(:user).id
+      set_current_user
 
       get :new
       expect(response).to redirect_to home_path
     end
+
     it "render new template for unauthenticated users" do
       get :new
       expect(response).to render_template :new
@@ -55,7 +56,7 @@ describe SessionsController do
 
   describe "GET #destroy" do
     before do
-      session[:user_id] = Fabricate(:user).id
+      set_current_user
       get :destroy
     end
 

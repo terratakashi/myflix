@@ -21,6 +21,8 @@ group :test do
   gem 'shoulda-matchers'
   # nyan cat style for rspec
   gem "nyan-cat-formatter"
+  gem "capybara"
+  gem "launchy"
 end
 
 group :development, :test do
