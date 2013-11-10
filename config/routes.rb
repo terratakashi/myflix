@@ -21,4 +21,8 @@ Myflix::Application.routes.draw do
   get "sign_out", to: "sessions#destroy"
   get 'ui(/:action)', controller: 'ui'
   root to: "pages#index"
+  get "forgot_password", to: "password_tokens#new"
+  get "invalid_token", to: "password_tokens#invalid_token"
+  post "update_password", to: "password_tokens#update"
+  resources :password_tokens, only: [:create, :show]
 end

@@ -1,0 +1,15 @@
+!!! 5
+%html(lang="en-US")
+  %body
+    %header
+      %h1 MyFLiX
+
+    %p You have applied to reset your password from myflix.com, your username is: #{@user.full_name}
+
+    %p To reset to password, just follow this link: #{ link_to "reset my password", password_token_url(@user.token, host: "localhost:3000") }
+
+    %p Enjoy your videos and have a great day!
+
+    %footer
+      &copy 2013 MyFLiX
+
