@@ -41,6 +41,8 @@ group :development do
   gem 'bullet'
   # RailsPanel - Chrome extension for Rails development
   gem 'meta_request'
+  # Mail opener
+  gem "letter_opener"
 
   gem 'sqlite3'
 end
