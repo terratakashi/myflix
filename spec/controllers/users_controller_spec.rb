@@ -37,6 +37,41 @@ describe UsersController do
         expect(response).to render_template :new
       end
     end
+
+    context "sending email" do
+      let(:mailbox) { ActionMailer::Base.deliveries }
+
+      context "with valid input" do
+        before do
+          mailbox.clear
+          post :create, user: {email: "example@example.com", full_name: "Alex Chen", password: "password"}
+        end
+
+        it "sends out a email" do
+          expect(mailbox).not_to be_empty
+        end
+
+        it "sends the mail to the right recipient" do
+          expect(mailbox.last.to).to eq(["example@example.com"])
+        end
+
+        it "sends out the mail containing user's name" do
+          expect(mailbox.last.html_part.body).to include("Alex Chen")
+          expect(mailbox.last.text_part.body).to include("Alex Chen")
+        end
+
+        it "the mail has right content" do
+          expect(mailbox.last.html_part.body).to include("Welcome to myflix.com")
+          expect(mailbox.last.text_part.body).to include("Welcome to myflix.com")
+        end
+      end
+
+      it "does not send out a email with invalid input" do
+        mailbox.clear
+        post :create, user: {full_name: "Alex Chen", password: "password"}
+        expect(ActionMailer::Base.deliveries).to be_empty
+      end
+    end
   end
 
   describe "GET #show" do
