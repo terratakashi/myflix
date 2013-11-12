@@ -10,6 +10,7 @@ class UsersController < ApplicationController
 
     if @user.save
       flash[:notice] = "The acoount of #{@user.full_name} has been created."
+      MyflixMailer.welcome_mail(@user).deliver
       redirect_to sign_in_path
     else
       render "new"
