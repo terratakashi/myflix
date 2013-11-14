@@ -4,6 +4,9 @@ describe User do
 
   it { should have_many(:queue_items).order(:position)}
   it { should have_many(:reviews) }
+  it { should have_many(:following_relationships) }
+  it { should have_many(:leading_relationships) }
+  it { should have_many(:invitations) }
   it { should validate_presence_of :full_name }
   it { should validate_presence_of :email }
   it { should validate_presence_of :password }
@@ -66,6 +69,21 @@ describe User do
       Fabricate(:relationship, follower: leader, leader: user)
 
       expect(user.following?(leader)).to be_false
+    end
+  end
+
+  describe "#follow" do
+    it "follows a new leader" do
+      alice = Fabricate(:user)
+      bob = Fabricate(:user)
+      alice.follow(bob)
+      expect(alice.following?(bob)).to be_true
+    end
+
+    it "does not follow a user who can'tbe followed" do
+      alice = Fabricate(:user)
+      alice.follow(alice)
+      expect(alice.following?(alice)).to be_false
     end
   end
 end

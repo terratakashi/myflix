@@ -9,16 +9,64 @@ describe UsersController do
     end
   end
 
+  describe "GET #new_with_invitation_token" do
+    it "render :new template with valid token" do
+      invitation = Fabricate(:invitation)
+      get :new_with_invitation_token, token: invitation.token
+      expect(response).to render_template(:new)
+    end
+
+    it "sets @user with recipient's mail" do
+      invitation = Fabricate(:invitation)
+      get :new_with_invitation_token, token: invitation.token
+      expect(assigns(:user).email).to eq(invitation.recipient_email)
+    end
+
+    it "sets @invitation_token" do
+      invitation = Fabricate(:invitation)
+      get :new_with_invitation_token, token: invitation.token
+      expect(assigns(:invitation_token)).to eq(invitation.token)
+    end
+
+    it "redirect to expired token page for invalid token" do
+      get :new_with_invitation_token, token: "invalid_token"
+      expect(response).to redirect_to invalid_token_path
+    end
+  end
+
   describe "POST #create" do
     context "with valid input" do
-      before { post :create, user: {email: "example@example.com", full_name: "Alex Chen", password: "password"} }
-
       it "create the user" do
+        post :create, user: Fabricate.attributes_for(:user)
         expect(User.count).to eq(1)
       end
 
       it "redirects to sign in page" do
+        post :create, user: Fabricate.attributes_for(:user)
         expect(response).to redirect_to sign_in_path
+      end
+
+      it "makes the user follow the inviter" do
+        alice = Fabricate(:user)
+        invitation = Fabricate(:invitation, inviter: alice)
+        post :create, user: Fabricate.attributes_for(:user, email: invitation.recipient_email), invitation_token: invitation.token
+        bob = User.find_by_email(invitation.recipient_email)
+        expect(bob.following?(alice)).to be_true
+      end
+
+      it "makes the inviter follow the user" do
+        alice = Fabricate(:user)
+        invitation = Fabricate(:invitation, inviter: alice)
+        post :create, user: Fabricate.attributes_for(:user, email: invitation.recipient_email), invitation_token: invitation.token
+        bob = User.find_by_email(invitation.recipient_email)
+        expect(alice.following?(bob)).to be_true
+      end
+      it "expires the invitation upon acceptance" do
+        alice = Fabricate(:user)
+        invitation = Fabricate(:invitation, inviter: alice)
+        post :create, user: Fabricate.attributes_for(:user, email: invitation.recipient_email), invitation_token: invitation.token
+        bob = User.find_by_email(invitation.recipient_email)
+        expect(Invitation.first.token).to be_nil
       end
     end
 

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131110094249) do
+ActiveRecord::Schema.define(version: 20131113080243) do
 
   create_table "categories", force: true do |t|
     t.string   "name"
@@ -22,6 +22,16 @@ ActiveRecord::Schema.define(version: 20131110094249) do
   create_table "categories_videos", force: true do |t|
     t.integer  "category_id"
     t.integer  "video_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "invitations", force: true do |t|
+    t.integer  "inviter_id"
+    t.string   "recipient_name"
+    t.string   "recipient_email"
+    t.string   "token"
+    t.text     "message"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
