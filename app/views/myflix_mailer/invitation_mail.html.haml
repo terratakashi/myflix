@@ -1,0 +1,18 @@
+!!! 5
+%html(lang="en-US")
+  %body
+    %header
+      %h1 MyFLiX
+    %p Welcome to myflix.com, #{@invitation.recipient_name}
+
+    %p You have been invited to sign up to myflix.com by your friend: #{@invitation.inviter.full_name}.
+
+    %p And your firend left a message for you:
+
+    = @invitation.message
+
+    %p To sign up to the site, just follow this link: #{ link_to "sign up here", register_with_token_url(@invitation.token, host: "localhost:3000") }
+
+    %footer
+      &copy 2013 MyFLiX
+

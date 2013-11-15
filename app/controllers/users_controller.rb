@@ -5,10 +5,21 @@ class UsersController < ApplicationController
     @user = User.new
   end
 
+  def new_with_invitation_token
+    if invitation = Invitation.find_by_token(params[:token])
+      @user = User.new(email: invitation.recipient_email)
+      @invitation_token = params[:token]
+      render "new"
+    else
+      redirect_to invalid_token_path
+    end
+  end
+
   def create
     @user = User.new(secure_params)
 
     if @user.save
+      handle_invitation
       flash[:notice] = "The acoount of #{@user.full_name} has been created."
       MyflixMailer.welcome_mail(@user).deliver
       redirect_to sign_in_path
@@ -24,6 +35,14 @@ class UsersController < ApplicationController
   end
 
   private
+
+  def handle_invitation
+    if invitation = Invitation.find_by_token(params[:invitation_token])
+      @user.follow(invitation.inviter)
+      invitation.inviter.follow(@user)
+      invitation.update_attribute(:token, nil)
+    end
+  end
 
   def secure_params
     params.require(:user).permit(:email, :full_name, :password)

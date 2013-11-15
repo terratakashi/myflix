@@ -4,6 +4,7 @@ class User < ActiveRecord::Base
   has_many :queue_items, ->{ order(:position) }
   has_many :following_relationships, class_name: "Relationship",foreign_key: "follower_id"
   has_many :leading_relationships, class_name: "Relationship",foreign_key: "leader_id"
+  has_many :invitations, foreign_key: "inviter_id"
 
   validates :full_name, :presence => true
   validates :email, :presence => true, :uniqueness => true
@@ -18,6 +19,10 @@ class User < ActiveRecord::Base
 
   def queued_video?(video)
     queue_items.map(&:video).include?(video)
+  end
+
+  def follow(leader)
+    following_relationships.create(leader: leader) if self.can_follow?(leader)
   end
 
   def following?(leader)

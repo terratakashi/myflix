@@ -11,4 +11,9 @@ class MyflixMailer < ActionMailer::Base
     @user = user
     mail to: @user.email, subject: "Please reset your password by the link!"
   end
+
+  def invitation_mail(invitation)
+    @invitation = invitation
+    mail to: @invitation.recipient_email, subject: "Please join this really cool site!"
+  end
 end
