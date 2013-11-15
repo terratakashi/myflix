@@ -1,6 +1,3 @@
-# module Tokenable located at app/lib/tokenable.rb
-require_relative "../../lib/tokenable.rb"
-
 class Invitation < ActiveRecord::Base
   include Tokenable
   belongs_to :inviter, class_name: "User"
