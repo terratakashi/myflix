@@ -28,9 +28,8 @@ describe UsersController do
       expect(assigns(:invitation_token)).to eq(invitation.token)
     end
 
-    it "redirect to expired token page for invalid token" do
-      get :new_with_invitation_token, token: "invalid_token"
-      expect(response).to redirect_to invalid_token_path
+    it_behaves_like "requires a valid token" do
+      let(:action) { get :new_with_invitation_token, token: "invalid_token" }
     end
   end
 
@@ -61,6 +60,7 @@ describe UsersController do
         bob = User.find_by_email(invitation.recipient_email)
         expect(alice.following?(bob)).to be_true
       end
+
       it "expires the invitation upon acceptance" do
         alice = Fabricate(:user)
         invitation = Fabricate(:invitation, inviter: alice)

@@ -57,10 +57,8 @@ describe PasswordTokensController do
       expect(response).to render_template :show
     end
 
-    it "redirects to token expiration page with invalid link" do
-      token = SecureRandom.urlsafe_base64
-      get :show, id: token
-      expect(response).to redirect_to invalid_token_path
+    it_behaves_like "requires a valid token" do
+      let(:action) { get :show, id: "invalid_token" }
     end
   end
 
