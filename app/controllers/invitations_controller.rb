@@ -7,7 +7,7 @@ class InvitationsController < ApplicationController
   def create
     @invitation = Invitation.new( secure_params.merge!(inviter: current_user) )
     if @invitation.save
-      MyflixMailer.invitation_mail(@invitation).deliver
+      MyflixMailer.delay.invitation_mail(@invitation)
       flash[:notice] = "An invitation has been sent to #{@invitation.recipient_name}."
       redirect_to invite_path
     else

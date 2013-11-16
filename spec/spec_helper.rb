@@ -6,6 +6,9 @@ require 'rspec/autorun'
 # For capybara and capybara-mail
 require 'capybara/rails'
 require 'capybara/email/rspec'
+# For testing actual mail
+require 'sidekiq/testing'
+Sidekiq::Testing.inline!
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
