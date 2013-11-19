@@ -14,6 +14,9 @@ Myflix::Application.routes.draw do
   resources :relationships, only: [:destroy, :create]
   resources :password_tokens, only: [:create, :show]
   resources :invitations, only: [:create]
+  namespace :admin do
+    resources :videos, only: [:new, :create]
+  end
 
   get "people", to: "relationships#index"
   post "update_queue", to: "queue_items#update_queue"
