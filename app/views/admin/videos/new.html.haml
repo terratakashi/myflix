@@ -14,17 +14,7 @@
               - Category.all.each do |category|
                 = f.check_box "category_ids", { id: category.name, multiple: true, label: category.name, inline: true }, category.id, nil
             = f.text_area :description, :label => "Description", :rows => 8, :class => "span6"
-            .control-group
-              %label.control-label Large Cover
-              .controls
-                %span.btn.btn-file
-                  %input(type="file")
-            .control-group
-              %label.control-label Small Cover
-              .controls
-                %span.btn.btn-file
-                  %input(type="file")
-
-          %fieldset.actions.control-group
-            .controls
-              %input(type="submit" value="Add Video" class="btn")
+            = f.file_field :large_cover, :label => "Large Cover",:class => "btn btn-file"
+            = f.file_field :small_cover, :label => "Small Cover",:class => "btn btn-file"
+            = f.control_group do
+              = f.secondary "Add Video"

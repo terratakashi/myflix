@@ -3,7 +3,7 @@ require "spec_helper"
 describe User do
 
   it { should have_many(:queue_items).order(:position)}
-  it { should have_many(:reviews) }
+  it { should have_many(:reviews).order("created_at DESC") }
   it { should have_many(:following_relationships) }
   it { should have_many(:leading_relationships) }
   it { should have_many(:invitations) }
