@@ -6,6 +6,9 @@ class Video < ActiveRecord::Base
   validates :title, :presence => true
   validates :description, :presence => true, :length =>{:maximum => 1000}
 
+  mount_uploader :large_cover, LargeCoverUploader
+  mount_uploader :small_cover, SmallCoverUploader
+
   def self.search_by_title(keywords)
     if !keywords.blank?
       keywords = keywords.split
