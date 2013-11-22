@@ -9,7 +9,6 @@ gem 'bcrypt-ruby', '= 3.0.1'
 gem 'bootstrap_form'
 gem "sidekiq"
 gem "carrierwave"
-gem "fog"
 gem "mini_magick"
 
 group :assets do
@@ -58,5 +57,8 @@ group :production do
   # for heroku
   gem "rails_12factor"
   gem 'pg'
+  # for s3
+  gem "fog"
+  gem "unf"
 end
 
