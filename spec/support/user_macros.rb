@@ -2,6 +2,10 @@ def set_current_user(user = nil)
   session[:user_id] = user || Fabricate(:user)
 end
 
+def set_current_admin(admin = nil)
+  session[:user_id] = admin || Fabricate(:admin)
+end
+
 def current_user
   @user ||= User.find(session[:user_id])
 end
@@ -15,6 +19,14 @@ def user_sign_in(existing_user = nil)
   visit sign_in_path
   fill_in "email", with: user.email
   fill_in "password", with: user.password
+  click_button "Sign in"
+end
+
+def admin_sign_in(existing_admin = nil)
+  admin = existing_admin || Fabricate(:admin)
+  visit sign_in_path
+  fill_in "email", with: admin.email
+  fill_in "password", with: admin.password
   click_button "Sign in"
 end
 

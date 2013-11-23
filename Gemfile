@@ -8,6 +8,8 @@ gem 'jquery-rails'
 gem 'bcrypt-ruby', '= 3.0.1'
 gem 'bootstrap_form'
 gem "sidekiq"
+gem "carrierwave"
+gem "mini_magick"
 
 group :assets do
   #gem 'sass-rails',   '~> 3.2.3'
@@ -55,5 +57,8 @@ group :production do
   # for heroku
   gem "rails_12factor"
   gem 'pg'
+  # for s3
+  gem "fog"
+  gem "unf"
 end
 
