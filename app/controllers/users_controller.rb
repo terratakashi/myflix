@@ -18,6 +18,24 @@ class UsersController < ApplicationController
   def create
     @user = User.new(secure_params)
 
+    Stripe.api_key = ENV['STRIPE_API_KEY']
+    token = params[:stripeToken]
+    begin
+      customer = Stripe::Customer.create(
+        :card => token,
+        :email => @user.email,
+        :description => "Full Name: #{@user.full_name} Email: #{@user.email}")
+
+      charge = Stripe::Charge.create(
+        :amount => 999,
+        :currency => "usd",
+        :customer => customer.id,
+        :description => "Sign up charge for: #{@user.email}")
+    rescue Stripe::CardError => e
+      flash[:error] = e.message
+      render "new"
+    end
+
     if @user.save
       handle_invitation
       flash[:notice] = "The acoount of #{@user.full_name} has been created."
