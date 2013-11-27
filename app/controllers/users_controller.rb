@@ -19,6 +19,7 @@ class UsersController < ApplicationController
     @user = User.new(secure_params)
 
     if @user.save
+      charge_users_credit_card(@user, params[:stripeToken])
       handle_invitation
       flash[:notice] = "The acoount of #{@user.full_name} has been created."
       MyflixMailer.welcome_mail(@user).deliver
@@ -35,6 +36,25 @@ class UsersController < ApplicationController
   end
 
   private
+
+  def charge_users_credit_card(user, token)
+    Stripe.api_key = ENV['STRIPE_API_KEY']
+    begin
+      customer = Stripe::Customer.create(
+        :card => token,
+        :email => user.email,
+        :description => "Full Name: #{user.full_name} Email: #{user.email}")
+
+      charge = Stripe::Charge.create(
+        :amount => 999,
+        :currency => "usd",
+        :customer => customer.id,
+        :description => "Sign up charge for: #{user.email}")
+    rescue Stripe::CardError => e
+      flash[:error] = e.message
+    end
+    !!charge
+  end
 
   def handle_invitation
     if invitation = Invitation.find_by_token(params[:invitation_token])

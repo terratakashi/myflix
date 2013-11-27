@@ -21,3 +21,6 @@ public/uploads
 vendor/bundler_gems
 config/database.yml
 config/config.yml
+
+# Ignore application configuration
+/config/application.yml

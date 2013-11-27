@@ -1,7 +1,13 @@
+= content_for :head do
+  %script(type="text/javascript" src="https://js.stripe.com/v2/")
+  :javascript
+    Stripe.setPublishableKey("#{ENV['STRIPE_PUBLIC_KEY']}");
+  = javascript_include_tag "payment"
+
 %section.register.container
   .row
     .span10.offset1
-      = bootstrap_form_for @user, :html => {:class => "form-horizontal"} do |f|
+      = bootstrap_form_for @user, :html => {:class => "form-horizontal", :id => "payment-form"} do |f|
         %header
           %h1 Register
         %fieldset
@@ -9,5 +15,21 @@
           = f.password_field :password, :label => "Password",:class => "span3"
           = f.text_field :full_name, :label => "Full Name",:class => "span3"
           = hidden_field_tag :invitation_token, @invitation_token
-        %fieldset.actions.control-group.controls
-          = f.secondary "Sign Up"
+        %fieldset.credit_card
+          %span.payment-errors
+          .control-group
+            = label_tag :card_number, "Credit Card Number", :class => "control-label"
+            .controls
+              = text_field_tag :card_number, nil, name: nil, :data => {:stripe => 'number' }, :class => "span3"
+          .control-group
+            = label_tag :security_code, "Security Code", :class => "control-label"
+            .controls
+              = text_field_tag :security_code, nil, name: nil, :data => {:stripe => 'cvc' }, :class => "span3"
+          .control-group
+            = label_tag :expiration_date, "Expiration", :class => "control-label"
+            .controls
+              = select_month(Date.today, {add_month_numbers: true}, :name => nil, :class => 'span2',  :data => {:stripe => 'exp-month' })
+              = select_year(Date.today.year, {start_year: Date.today.year, end_year: Date.today.year + 4}, :name => nil, :class => 'span1', :data => {:stripe => 'exp-year' })
+        %fieldset.actions.control-group
+          .controls
+            = f.secondary "Sign Up"
