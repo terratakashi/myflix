@@ -34,7 +34,12 @@ describe UsersController do
   end
 
   describe "POST #create" do
-    context "with valid input" do
+    context "with valid user info and valid credit card" do
+      before do
+        charge = double("charge", successful?: true)
+        StripeWrapper::Charge.should_receive(:create).and_return(charge)
+      end
+
       it "create the user" do
         post :create, user: Fabricate.attributes_for(:user)
         expect(User.count).to eq(1)
@@ -70,8 +75,32 @@ describe UsersController do
       end
     end
 
-    context "with invalid input" do
-      before { post :create, user: {full_name: "Alex Chen", password: "password"} }
+    context "with valid user infor but invalid credit card" do
+      before do
+        charge = double(:dont_charge, successful?: false, error_message: "error_message")
+        StripeWrapper::Charge.should_receive(:create).and_return(charge)
+
+        post :create, user: Fabricate.attributes_for(:user)
+      end
+
+      it "does not create the user" do
+        expect(User.count).to eq(0)
+      end
+
+      it "render new template" do
+        expect(response).to render_template :new
+      end
+
+      it "sets a error message" do
+        expect(flash[:error]).to eq("error_message")
+      end
+    end
+
+    context "with invalid user info" do
+      before do
+        StripeWrapper::Charge.should_not_receive(:create)
+        post :create, user: {full_name: "Alex Chen", password: "password"}
+      end
 
       it "doesn't create the user" do
         expect(User.count).to eq(0)
@@ -84,6 +113,10 @@ describe UsersController do
       it "renders :new template" do
         expect(response).to render_template :new
       end
+
+      it "does not charge the credit card" do
+        expect(StripeWrapper::Charge).not_to receive(:create)
+      end
     end
 
     context "sending email" do
@@ -92,6 +125,8 @@ describe UsersController do
       context "with valid input" do
         before do
           mailbox.clear
+          charge = double("charge", successful?: true)
+          StripeWrapper::Charge.should_receive(:create).and_return(charge)
           post :create, user: {email: "example@example.com", full_name: "Alex Chen", password: "password"}
         end
 
@@ -116,6 +151,7 @@ describe UsersController do
 
       it "does not send out a email with invalid input" do
         mailbox.clear
+        StripeWrapper::Charge.should_not_receive(:create)
         post :create, user: {full_name: "Alex Chen", password: "password"}
         expect(ActionMailer::Base.deliveries).to be_empty
       end

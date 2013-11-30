@@ -8,7 +8,6 @@ module StripeWrapper
     end
 
     def self.create( options = {} )
-      StripeWrapper.set_api_key
       begin
         response = Stripe::Charge.create(
           :amount => 999,
@@ -28,9 +27,5 @@ module StripeWrapper
     def error_message
       @response.message
     end
-  end
-
-  def self.set_api_key
-    Stripe.api_key = ENV['STRIPE_API_KEY']
   end
 end

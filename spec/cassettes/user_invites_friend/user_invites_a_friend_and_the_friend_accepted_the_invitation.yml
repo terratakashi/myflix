@@ -1,0 +1,98 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api.stripe.com/v1/charges
+    body:
+      encoding: US-ASCII
+      string: amount=999&currency=usd&card=tok_1032Bv2zh8gd9Toln6Gx1wJz&description=Sign%20up%20charge%20for%3A%20cathy%40example.com
+    headers:
+      Accept:
+      - '*/*; q=0.5, application/xml'
+      Accept-Encoding:
+      - gzip, deflate
+      User-Agent:
+      - Stripe/v1 RubyBindings/1.8.9
+      Authorization:
+      - Bearer sk_test_oMlhXvNQok7zm1EtNzAhkaAJ
+      Content-Type:
+      - application/x-www-form-urlencoded
+      X-Stripe-Client-User-Agent:
+      - '{"bindings_version":"1.8.9","lang":"ruby","lang_version":"2.0.0 p247 (2013-06-27)","platform":"x86_64-darwin12.3.0","publisher":"stripe","uname":"Darwin
+        CHANGYIs-MacBook-Air.local 12.5.0 Darwin Kernel Version 12.5.0: Mon Jul 29
+        16:33:49 PDT 2013; root:xnu-2050.48.11~1/RELEASE_X86_64 x86_64"}'
+      Content-Length:
+      - '119'
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Sat, 30 Nov 2013 06:47:41 GMT
+      Content-Type:
+      - application/json;charset=utf-8
+      Content-Length:
+      - '1002'
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Methods:
+      - GET, POST, HEAD, OPTIONS, DELETE
+      Access-Control-Max-Age:
+      - '300'
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Cache-Control:
+      - no-cache, no-store
+      Strict-Transport-Security:
+      - max-age=31556926; includeSubDomains
+    body:
+      encoding: UTF-8
+      string: |
+        {
+          "id": "ch_1032Bv2zh8gd9TolfA1F4XEQ",
+          "object": "charge",
+          "created": 1385794060,
+          "livemode": false,
+          "paid": true,
+          "amount": 999,
+          "currency": "usd",
+          "refunded": false,
+          "card": {
+            "id": "card_1032Bv2zh8gd9TolsEGdxlZ1",
+            "object": "card",
+            "last4": "4242",
+            "type": "Visa",
+            "exp_month": 8,
+            "exp_year": 2017,
+            "fingerprint": "0Jf6MM8vFKQi3321",
+            "customer": null,
+            "country": "US",
+            "name": null,
+            "address_line1": null,
+            "address_line2": null,
+            "address_city": null,
+            "address_state": null,
+            "address_zip": null,
+            "address_country": null,
+            "cvc_check": "pass",
+            "address_line1_check": null,
+            "address_zip_check": null
+          },
+          "captured": true,
+          "refunds": [],
+          "balance_transaction": "txn_1032Bv2zh8gd9Tolukogm1mg",
+          "failure_message": null,
+          "failure_code": null,
+          "amount_refunded": 0,
+          "customer": null,
+          "invoice": null,
+          "description": "Sign up charge for: cathy@example.com",
+          "dispute": null,
+          "metadata": {}
+        }
+    http_version: 
+  recorded_at: Sat, 30 Nov 2013 06:47:44 GMT
+recorded_with: VCR 2.8.0
