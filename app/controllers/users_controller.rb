@@ -31,6 +31,7 @@ class UsersController < ApplicationController
         render "new"
       end
     else
+      flash[:error] = "Invalid user informaiton. Please check the errors below."
       render "new"
     end
   end
