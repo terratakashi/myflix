@@ -12,6 +12,7 @@ gem "carrierwave"
 gem "mini_magick"
 gem 'stripe', :git => 'https://github.com/stripe/stripe-ruby'
 gem "figaro"
+gem 'draper', '~> 1.3'
 
 group :assets do
   #gem 'sass-rails',   '~> 3.2.3'
