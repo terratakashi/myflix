@@ -152,7 +152,7 @@ describe QueueItemsController do
           expect(flash[:error]).not_to be_blank
         end
 
-        it "does not change the queue items" do
+        it "does not change the queue items", truncation: true do
           post :update_queue, queue_items: [{id: queue_item1.id, position: 3}, {id: queue_item2.id, position: 1.5}]
           expect(queue_item1.reload.position).to eq(1)
         end

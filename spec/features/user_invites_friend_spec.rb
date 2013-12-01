@@ -1,6 +1,6 @@
 require "spec_helper"
 
-feature "user invites friend" do
+feature "user invites friend", {vcr: true, js: true, driver: :selenium} do
   scenario "user invites a friend and the friend accepted the invitation" do
     clear_emails
     alice = Fabricate(:user)
@@ -20,7 +20,7 @@ feature "user invites friend" do
   end
 
   def invite_a_friend
-    click_link "Invite a friend"
+    visit invite_path
     fill_in "Friend's Name", with: "cathy"
     fill_in "Friend's Email Address", with: "cathy@example.com"
     fill_in "Invitation Message", with: "Join this cool site!"
@@ -36,6 +36,10 @@ feature "user invites friend" do
     expect(find("#user_email").value).to eq("cathy@example.com")
     fill_in "Password", with: "cathy_password"
     fill_in "Full Name", with: "cathy"
+    fill_in "Credit Card Number", with: "4242424242424242"
+    fill_in "Security Code", with: "123"
+    select '8 - August', from: 'date_month'
+    select '2017', from: 'date_year'
     click_button "Sign Up"
   end
 

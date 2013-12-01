@@ -18,13 +18,20 @@ class UsersController < ApplicationController
   def create
     @user = User.new(secure_params)
 
-    if @user.save
-      charge_users_credit_card(@user, params[:stripeToken])
-      handle_invitation
-      flash[:notice] = "The acoount of #{@user.full_name} has been created."
-      MyflixMailer.welcome_mail(@user).deliver
-      redirect_to sign_in_path
+    if @user.valid?
+      charge = StripeWrapper::Charge.create(email: @user.email, token: params[:stripeToken])
+      if charge.successful?
+        @user.save
+        handle_invitation
+        flash[:notice] = "The acoount of #{@user.full_name} has been created."
+        MyflixMailer.welcome_mail(@user).deliver
+        redirect_to sign_in_path
+      else
+        flash[:error] = charge.error_message
+        render "new"
+      end
     else
+      flash[:error] = "Invalid user informaiton. Please check the errors below."
       render "new"
     end
   end
@@ -36,25 +43,6 @@ class UsersController < ApplicationController
   end
 
   private
-
-  def charge_users_credit_card(user, token)
-    Stripe.api_key = ENV['STRIPE_API_KEY']
-    begin
-      customer = Stripe::Customer.create(
-        :card => token,
-        :email => user.email,
-        :description => "Full Name: #{user.full_name} Email: #{user.email}")
-
-      charge = Stripe::Charge.create(
-        :amount => 999,
-        :currency => "usd",
-        :customer => customer.id,
-        :description => "Sign up charge for: #{user.email}")
-    rescue Stripe::CardError => e
-      flash[:error] = e.message
-    end
-    !!charge
-  end
 
   def handle_invitation
     if invitation = Invitation.find_by_token(params[:invitation_token])

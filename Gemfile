@@ -27,10 +27,16 @@ group :test do
   # nyan cat style for rspec
   gem "nyan-cat-formatter"
   gem "capybara"
+  gem "selenium-webdriver"
+  gem "capybara-webkit"
+  gem "database_cleaner"
   # open page in feature testing
   gem "launchy"
   # feature test for mail
   gem "capybara-email"
+  # record 3rd party api service
+  gem "vcr"
+  gem "webmock", "~> 1.8.0"
 end
 
 group :development, :test do
