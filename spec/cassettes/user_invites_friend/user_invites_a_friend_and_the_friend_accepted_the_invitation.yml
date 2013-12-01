@@ -5,7 +5,7 @@ http_interactions:
     uri: https://api.stripe.com/v1/charges
     body:
       encoding: US-ASCII
-      string: amount=999&currency=usd&card=tok_1032Bv2zh8gd9Toln6Gx1wJz&description=Sign%20up%20charge%20for%3A%20cathy%40example.com
+      string: amount=999&currency=usd&card=tok_1032al2zh8gd9Tol5elLgXxT&description=Sign%20up%20charge%20for%3A%20cathy%40example.com
     headers:
       Accept:
       - '*/*; q=0.5, application/xml'
@@ -31,7 +31,7 @@ http_interactions:
       Server:
       - nginx
       Date:
-      - Sat, 30 Nov 2013 06:47:41 GMT
+      - Sun, 01 Dec 2013 08:27:25 GMT
       Content-Type:
       - application/json;charset=utf-8
       Content-Length:
@@ -52,16 +52,16 @@ http_interactions:
       encoding: UTF-8
       string: |
         {
-          "id": "ch_1032Bv2zh8gd9TolfA1F4XEQ",
+          "id": "ch_1032al2zh8gd9Tolzdc4Kehd",
           "object": "charge",
-          "created": 1385794060,
+          "created": 1385886445,
           "livemode": false,
           "paid": true,
           "amount": 999,
           "currency": "usd",
           "refunded": false,
           "card": {
-            "id": "card_1032Bv2zh8gd9TolsEGdxlZ1",
+            "id": "card_1032al2zh8gd9ToljUzS3fFE",
             "object": "card",
             "last4": "4242",
             "type": "Visa",
@@ -83,7 +83,7 @@ http_interactions:
           },
           "captured": true,
           "refunds": [],
-          "balance_transaction": "txn_1032Bv2zh8gd9Tolukogm1mg",
+          "balance_transaction": "txn_1032al2zh8gd9TolGEcEqCYM",
           "failure_message": null,
           "failure_code": null,
           "amount_refunded": 0,
@@ -94,5 +94,5 @@ http_interactions:
           "metadata": {}
         }
     http_version: 
-  recorded_at: Sat, 30 Nov 2013 06:47:44 GMT
+  recorded_at: Sun, 01 Dec 2013 08:27:31 GMT
 recorded_with: VCR 2.8.0

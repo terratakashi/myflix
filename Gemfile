@@ -28,6 +28,7 @@ group :test do
   gem "nyan-cat-formatter"
   gem "capybara"
   gem "selenium-webdriver"
+  gem "capybara-webkit"
   gem "database_cleaner"
   # open page in feature testing
   gem "launchy"

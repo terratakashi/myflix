@@ -1,6 +1,6 @@
 require "spec_helper"
 
-feature "user invites friend", {vcr: true, js: true} do
+feature "user invites friend", {vcr: true, js: true, driver: :selenium} do
   scenario "user invites a friend and the friend accepted the invitation" do
     clear_emails
     alice = Fabricate(:user)
