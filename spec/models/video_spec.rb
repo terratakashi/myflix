@@ -50,10 +50,10 @@ describe Video do
   end
 
   describe "#average_rating" do
-    it "return unranked if no review in the viedo" do
+    it "return nil if no review in the viedo" do
       video = Fabricate(:video)
 
-      expect(video.average_rating).to eq("unranked")
+      expect(video.average_rating).to be_nil
     end
 
     it "return average rating of the video" do
@@ -61,7 +61,7 @@ describe Video do
       Fabricate(:review, rating: 2, video: titanic)
       Fabricate(:review, rating: 3, video: titanic)
 
-      expect(titanic.average_rating).to eq("2.5/5.0")
+      expect(titanic.average_rating).to eq(2.5)
     end
   end
 
