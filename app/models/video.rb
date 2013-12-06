@@ -17,12 +17,11 @@ class Video < ActiveRecord::Base
     end
   end
 
+  def decorate
+    VideoDecorator.new(self)
+  end
+
   def average_rating
-    if reviews.empty?
-      "unranked"
-    else
-      average = reviews.average("rating").round(1)
-      "#{average}/5.0"
-    end
+    reviews.average("rating").round(1) if reviews.average("rating")
   end
 end
