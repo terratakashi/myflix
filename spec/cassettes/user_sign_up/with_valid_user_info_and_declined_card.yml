@@ -2,10 +2,10 @@
 http_interactions:
 - request:
     method: post
-    uri: https://api.stripe.com/v1/charges
+    uri: https://api.stripe.com/v1/customers
     body:
       encoding: US-ASCII
-      string: amount=999&currency=usd&card=tok_1032Fs2zh8gd9TolTD5CY2Ct&description=Sign%20up%20charge%20for%3A%20gail.schinner%40ratkewolf.info
+      string: description=Account%3A%20deonte_predovic%40eichmann.name&email=deonte_predovic%40eichmann.name&plan=month_member&card=tok_1034sS2zh8gd9TolJ6jheAIW
     headers:
       Accept:
       - '*/*; q=0.5, application/xml'
@@ -22,7 +22,7 @@ http_interactions:
         CHANGYIs-MacBook-Air.local 12.5.0 Darwin Kernel Version 12.5.0: Mon Jul 29
         16:33:49 PDT 2013; root:xnu-2050.48.11~1/RELEASE_X86_64 x86_64"}'
       Content-Length:
-      - '130'
+      - '146'
   response:
     status:
       code: 402
@@ -31,11 +31,11 @@ http_interactions:
       Server:
       - nginx
       Date:
-      - Sat, 30 Nov 2013 10:53:09 GMT
+      - Sat, 07 Dec 2013 10:53:04 GMT
       Content-Type:
       - application/json;charset=utf-8
       Content-Length:
-      - '162'
+      - '117'
       Connection:
       - keep-alive
       Access-Control-Allow-Methods:
@@ -53,10 +53,9 @@ http_interactions:
           "error": {
             "message": "Your card was declined.",
             "type": "card_error",
-            "code": "card_declined",
-            "charge": "ch_1032Fs2zh8gd9TolPNP0yZMd"
+            "code": "card_declined"
           }
         }
     http_version: 
-  recorded_at: Sat, 30 Nov 2013 10:53:13 GMT
+  recorded_at: Sat, 07 Dec 2013 10:53:09 GMT
 recorded_with: VCR 2.8.0

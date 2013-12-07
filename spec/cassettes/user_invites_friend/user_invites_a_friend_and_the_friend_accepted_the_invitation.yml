@@ -2,10 +2,10 @@
 http_interactions:
 - request:
     method: post
-    uri: https://api.stripe.com/v1/charges
+    uri: https://api.stripe.com/v1/customers
     body:
       encoding: US-ASCII
-      string: amount=999&currency=usd&card=tok_1032al2zh8gd9Tol5elLgXxT&description=Sign%20up%20charge%20for%3A%20cathy%40example.com
+      string: description=Account%3A%20cathy%40example.com&email=cathy%40example.com&plan=month_member&card=tok_1034sW2zh8gd9TollsmLwURb
     headers:
       Accept:
       - '*/*; q=0.5, application/xml'
@@ -22,7 +22,7 @@ http_interactions:
         CHANGYIs-MacBook-Air.local 12.5.0 Darwin Kernel Version 12.5.0: Mon Jul 29
         16:33:49 PDT 2013; root:xnu-2050.48.11~1/RELEASE_X86_64 x86_64"}'
       Content-Length:
-      - '119'
+      - '122'
   response:
     status:
       code: 200
@@ -31,11 +31,11 @@ http_interactions:
       Server:
       - nginx
       Date:
-      - Sun, 01 Dec 2013 08:27:25 GMT
+      - Sat, 07 Dec 2013 10:56:47 GMT
       Content-Type:
       - application/json;charset=utf-8
       Content-Length:
-      - '1002'
+      - '1777'
       Connection:
       - keep-alive
       Access-Control-Allow-Methods:
@@ -52,47 +52,74 @@ http_interactions:
       encoding: UTF-8
       string: |
         {
-          "id": "ch_1032al2zh8gd9Tolzdc4Kehd",
-          "object": "charge",
-          "created": 1385886445,
+          "object": "customer",
+          "created": 1386413807,
+          "id": "cus_34sWuV7UDV95Px",
           "livemode": false,
-          "paid": true,
-          "amount": 999,
-          "currency": "usd",
-          "refunded": false,
-          "card": {
-            "id": "card_1032al2zh8gd9ToljUzS3fFE",
-            "object": "card",
-            "last4": "4242",
-            "type": "Visa",
-            "exp_month": 8,
-            "exp_year": 2017,
-            "fingerprint": "0Jf6MM8vFKQi3321",
-            "customer": null,
-            "country": "US",
-            "name": null,
-            "address_line1": null,
-            "address_line2": null,
-            "address_city": null,
-            "address_state": null,
-            "address_zip": null,
-            "address_country": null,
-            "cvc_check": "pass",
-            "address_line1_check": null,
-            "address_zip_check": null
+          "description": "Account: cathy@example.com",
+          "email": "cathy@example.com",
+          "delinquent": false,
+          "metadata": {},
+          "subscription": {
+            "id": "sub_34sWi1qJcswZ6z",
+            "plan": {
+              "interval": "month",
+              "name": "monthly membership",
+              "amount": 999,
+              "currency": "usd",
+              "id": "month_member",
+              "object": "plan",
+              "livemode": false,
+              "interval_count": 1,
+              "trial_period_days": null,
+              "metadata": {}
+            },
+            "object": "subscription",
+            "start": 1386413807,
+            "status": "active",
+            "customer": "cus_34sWuV7UDV95Px",
+            "cancel_at_period_end": false,
+            "current_period_start": 1386413807,
+            "current_period_end": 1389092207,
+            "ended_at": null,
+            "trial_start": null,
+            "trial_end": null,
+            "canceled_at": null,
+            "quantity": 1,
+            "application_fee_percent": null
           },
-          "captured": true,
-          "refunds": [],
-          "balance_transaction": "txn_1032al2zh8gd9TolGEcEqCYM",
-          "failure_message": null,
-          "failure_code": null,
-          "amount_refunded": 0,
-          "customer": null,
-          "invoice": null,
-          "description": "Sign up charge for: cathy@example.com",
-          "dispute": null,
-          "metadata": {}
+          "discount": null,
+          "account_balance": 0,
+          "cards": {
+            "object": "list",
+            "count": 1,
+            "url": "/v1/customers/cus_34sWuV7UDV95Px/cards",
+            "data": [
+              {
+                "id": "card_1034sW2zh8gd9TolsoPMFihS",
+                "object": "card",
+                "last4": "4242",
+                "type": "Visa",
+                "exp_month": 8,
+                "exp_year": 2017,
+                "fingerprint": "0Jf6MM8vFKQi3321",
+                "customer": "cus_34sWuV7UDV95Px",
+                "country": "US",
+                "name": null,
+                "address_line1": null,
+                "address_line2": null,
+                "address_city": null,
+                "address_state": null,
+                "address_zip": null,
+                "address_country": null,
+                "cvc_check": "pass",
+                "address_line1_check": null,
+                "address_zip_check": null
+              }
+            ]
+          },
+          "default_card": "card_1034sW2zh8gd9TolsoPMFihS"
         }
     http_version: 
-  recorded_at: Sun, 01 Dec 2013 08:27:31 GMT
+  recorded_at: Sat, 07 Dec 2013 10:56:51 GMT
 recorded_with: VCR 2.8.0

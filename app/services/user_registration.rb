@@ -6,15 +6,15 @@ class UserRegistration
 
   def sign_up(stripeToken, invitation_token)
     if @user.valid?
-      charge = StripeWrapper::Charge.create(email: @user.email, token: stripeToken)
-      if charge.successful?
+      customer = StripeWrapper::Customer.create(email: @user.email, token: stripeToken)
+      if customer.successful?
         @user.save
         handle_invitation(invitation_token)
         MyflixMailer.welcome_mail(@user).deliver
         @status = :success
       else
         @status = :failed
-        @error_message = charge.error_message
+        @error_message = customer.error_message
       end
     else
         @status = :failed

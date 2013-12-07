@@ -5,8 +5,8 @@ describe UserRegistration do
   describe "#sign_up" do
     context "with valid user info and valid credit card" do
       before do
-        charge = double("charge", successful?: true)
-        StripeWrapper::Charge.should_receive(:create).and_return(charge)
+        customer = double("customer", successful?: true)
+        StripeWrapper::Customer.should_receive(:create).and_return(customer)
       end
 
       it "create the user" do
@@ -70,8 +70,8 @@ describe UserRegistration do
 
     context "with valid user infor but invalid credit card" do
       before do
-        charge = double(:dont_charge, successful?: false, error_message: "error_message")
-        StripeWrapper::Charge.should_receive(:create).and_return(charge)
+        customer = double(:dont_charge, successful?: false, error_message: "error_message")
+        StripeWrapper::Customer.should_receive(:create).and_return(customer)
       end
 
       it "does not create the user" do
@@ -96,7 +96,7 @@ describe UserRegistration do
 
     context "with invalid user info" do
       before do
-        StripeWrapper::Charge.should_not_receive(:create)
+        StripeWrapper::Customer.should_not_receive(:create)
       end
 
       it "doesn't create the user" do
@@ -108,7 +108,7 @@ describe UserRegistration do
       it "does not charge the credit card" do
         user = Fabricate.build(:user, email: nil)
         UserRegistration.new(user).sign_up("strip_token", nil)
-        expect(StripeWrapper::Charge).not_to receive(:create)
+        expect(StripeWrapper::Customer).not_to receive(:create)
       end
 
       it "sets error_message" do

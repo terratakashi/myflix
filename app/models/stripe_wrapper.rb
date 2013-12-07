@@ -28,4 +28,34 @@ module StripeWrapper
       @response.message
     end
   end
+
+  class Customer
+    attr_reader :response
+
+    def initialize(response, status)
+      @response = response
+      @status = status
+    end
+
+    def self.create(options = {})
+      begin
+        customer = Stripe::Customer.create(
+          :description => "Account: #{options[:email]}",
+          :email => options[:email],
+          :plan => "month_member",
+          :card => options[:token])
+        Customer.new(customer, :success)
+      rescue Stripe::CardError => e
+        Customer.new(e, :error)
+      end
+    end
+
+    def successful?
+      @status == :success
+    end
+
+    def error_message
+      @response.message
+    end
+  end
 end
