@@ -11,6 +11,7 @@ gem "sidekiq"
 gem "carrierwave"
 gem "mini_magick"
 gem 'stripe', :git => 'https://github.com/stripe/stripe-ruby'
+gem 'stripe_event'
 gem "figaro"
 gem 'draper', '~> 1.3'
 

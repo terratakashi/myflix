@@ -48,7 +48,7 @@ describe StripeWrapper do
       StripeWrapper::Customer.create(
         :email => "test_mode@example.com",
         :plan => "month_member",
-        :card => token)
+        :token => token)
     end
 
     context "with valid card" do
@@ -58,6 +58,10 @@ describe StripeWrapper do
         expect(customer).to be_successful
         expect(customer.response.subscription.plan.amount).to eq(999)
         expect(customer.response.subscription.plan.currency).to eq("usd")
+      end
+
+      it "returns the customer token" do
+        expect(customer.customer_token).to be_present
       end
     end
 

@@ -8,6 +8,7 @@ class UserRegistration
     if @user.valid?
       customer = StripeWrapper::Customer.create(email: @user.email, token: stripeToken)
       if customer.successful?
+        @user.customer_token = customer.customer_token
         @user.save
         handle_invitation(invitation_token)
         MyflixMailer.welcome_mail(@user).deliver

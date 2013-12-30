@@ -16,6 +16,7 @@ Myflix::Application.routes.draw do
   resources :invitations, only: [:create]
   namespace :admin do
     resources :videos, only: [:new, :create]
+    resources :payments, only: [:index]
   end
 
   get "people", to: "relationships#index"
@@ -31,4 +32,6 @@ Myflix::Application.routes.draw do
   get "invalid_token", to: "pages#invalid_token"
   post "update_password", to: "password_tokens#update"
   get "invite", to: "invitations#new"
+
+  mount StripeEvent::Engine => '/stripe_events'
 end

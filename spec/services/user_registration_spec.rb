@@ -5,7 +5,7 @@ describe UserRegistration do
   describe "#sign_up" do
     context "with valid user info and valid credit card" do
       before do
-        customer = double("customer", successful?: true)
+        customer = double("customer", successful?: true, customer_token: "customer_token")
         StripeWrapper::Customer.should_receive(:create).and_return(customer)
       end
 
@@ -13,6 +13,12 @@ describe UserRegistration do
         user = Fabricate.build(:user)
         UserRegistration.new(user).sign_up("trip_token", nil)
         expect(User.count).to eq(1)
+      end
+
+      it "stores the customer token from stripe" do
+        user = Fabricate.build(:user)
+        UserRegistration.new(user).sign_up("trip_token", nil)
+        expect(user.customer_token).to eq("customer_token")
       end
 
       it "makes the user follow the inviter" do
