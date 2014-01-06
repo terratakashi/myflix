@@ -22,4 +22,15 @@ feature "User signs in" do
     expect(page).not_to have_content alex.full_name
     expect(page).to have_content "Incorrect email or password. Please try again."
   end
+
+  scenario "Signing in with a deactivated user" do
+    alex.deactivate!
+    visit sign_in_path
+    fill_in "email", with: alex.email
+    fill_in "password", with: alex.password
+    click_button "Sign in"
+
+    expect(page).not_to have_content alex.full_name
+    expect(page).to have_content "Your account has been suspened.  Please contact our service!"
+  end
 end

@@ -86,4 +86,12 @@ describe User do
       expect(alice.following?(alice)).to be_false
     end
   end
+
+  describe "#deactivate!" do
+    it "sets false to users active state" do
+      alice = Fabricate(:user)
+      alice.deactivate!
+      expect(alice).not_to be_active
+    end
+  end
 end
